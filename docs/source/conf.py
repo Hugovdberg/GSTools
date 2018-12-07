@@ -69,7 +69,8 @@ extensions = [
 ]
 
 autoclass_content = 'class'
-autodoc_member_order = 'groupwise'
+autodoc_member_order = 'bysource'
+#autodoc_member_order = 'groupwise'
 
 numpydoc_show_class_members = False
 

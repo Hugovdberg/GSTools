@@ -120,8 +120,9 @@ from gstools import SRF, Exponential, Stable, estimate_unstructured
 from gstools.covmodel.plot import plot_variogram
 import matplotlib.pyplot as pt
 # generate a synthetic field with an exponential model
-x = np.random.RandomState(19970221).rand(1000) * 100.
-y = np.random.RandomState(20011012).rand(1000) * 100.
+rng = np.random.RandomState(20011012)
+x = rng.rand(1000) * 100.
+y = rng.rand(1000) * 100.
 model = Exponential(dim=2, var=2, len_scale=8)
 srf = SRF(model, mean=0, seed=19970221)
 field = srf((x, y))

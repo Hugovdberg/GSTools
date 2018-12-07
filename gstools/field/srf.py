@@ -154,7 +154,7 @@ class SRF(object):
         # update the model/seed in the generator if any changes were made
         self.generator.update(self.model, seed)
         # format the positional arguments of the mesh
-        check_mesh(self.dim, x, y, z, mesh_type)
+        check_mesh(self.model.dim, x, y, z, mesh_type)
         mesh_type_changed = False
         if self.do_rotation:
             if mesh_type == "structured":
@@ -162,10 +162,10 @@ class SRF(object):
                 mesh_type_old = mesh_type
                 mesh_type = "unstructured"
                 x, y, z, axis_lens = reshape_axis_from_struct_to_unstruct(
-                    self.dim, x, y, z
+                    self.model.dim, x, y, z
                 )
-            x, y, z = unrotate_mesh(self.dim, self.model.angles, x, y, z)
-        y, z = make_isotropic(self.dim, self.model.anis, y, z)
+            x, y, z = unrotate_mesh(self.model.dim, self.model.angles, x, y, z)
+        y, z = make_isotropic(self.model.dim, self.model.anis, y, z)
         x, y, z = reshape_input(x, y, z, mesh_type)
 
         # generate the field
@@ -175,7 +175,7 @@ class SRF(object):
         if mesh_type_changed:
             mesh_type = mesh_type_old
             field = reshape_field_from_unstruct_to_struct(
-                self.dim, field, axis_lens
+                self.model.dim, field, axis_lens
             )
 
         # force variance and mean to be exactly as given (if wanted)
@@ -268,11 +268,6 @@ class SRF(object):
     def do_rotation(self):
         """State if a rotation should be performed depending on the model"""
         return not np.all(np.isclose(self.model.angles, 0.0))
-
-    @property
-    def dim(self):
-        """The dimension of the spatial random field."""
-        return self.model.dim
 
     def __str__(self):
         return self.__repr__()

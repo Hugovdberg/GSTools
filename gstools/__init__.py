@@ -43,6 +43,7 @@ Functions
 The following functions are provided directly
 
 .. autosummary::
+   vtk_export
    vtk_export_structured
    vtk_export_unstructured
    estimate_structured
